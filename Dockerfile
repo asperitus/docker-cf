@@ -49,9 +49,27 @@ RUN wget -q -O - http://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.ke
     && apt-get install cf-cli
 
 ##
-USER $LOGIN
+RUN echo "Installing Go ..." \
+    && wget "https://redirector.gvt1.com/edgedl/go/go1.9.2.linux-amd64.tar.gz" -O /tmp/go.tar.gz --no-check-certificate --quiet --show-progress=off \
+    && tar -xf /tmp/go.tar.gz -C /usr/local/ \
+    && rm /tmp/go.tar.gz
 
-WORKDIR /home/$LOGIN
+ENV GOROOT /usr/local/go
+ENV GOPATH $HOME/go
+
+#
+RUN git config --system http.sslVerify "false"
+
+##
+USER $LOGIN
+WORKDIR $HOME
+
+##
+RUN echo "Update rc ..." \
+    && echo "export PATH=\"\$PATH:$HOME/go/bin:/usr/local/go/bin\"" >> $HOME/.bashrc \
+    && echo "alias cdgh=\"cd $GOPATH/src/github.com\"" >> $HOME/.bashrc \
+    && echo "alias cfin=\"cf login -a  https://api.system.aws-usw02-pr.ice.predix.io\"" >> $HOME/.bashrc \
+    && echo "alias cfout=\"cf logout\"" >> $HOME/.bashrc
 
 ##
 CMD ["/bin/bash"]
