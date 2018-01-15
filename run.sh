@@ -58,5 +58,5 @@ volume=""
 
 export PORT=4200
 
-docker run $proxy $volume -e DISPLAY=${DISPLAY} -p $PORT:4200 --expose 4200 -it --rm --privileged --name dhnt-cf-$$ dhnt/cf
+docker run $proxy $volume -e DISPLAY=${DISPLAY} --net=host -p $PORT:4200 --expose 4200 -it --rm --privileged --name dhnt-cf-$$ dhnt/cf
 #
