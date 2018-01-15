@@ -57,7 +57,19 @@ RUN echo "Installing Go ..." \
 ENV GOROOT /usr/local/go
 ENV GOPATH $HOME/go
 
-#
+
+##
+RUN apt-get install -y --no-install-recommends \
+    lsb-release
+
+RUN echo "Installing Node.js ..." \
+    && echo "deb http://deb.nodesource.com/node_6.x $(lsb_release -sc) main" >> /etc/apt/sources.list \
+	&& apt-key adv --keyserver keyserver.ubuntu.com --recv 68576280 \
+	&& apt-get update \
+    && apt-get install -y --no-install-recommends \
+       nodejs
+
+##
 RUN git config --system http.sslVerify "false"
 
 ##

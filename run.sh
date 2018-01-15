@@ -56,5 +56,7 @@ volume=""
 [ ! -z "${DHNT_VCAP_HOME}" ] && volume="$volume -v ${DHNT_VCAP_HOME}:/home/vcap"
 [ ! -z "${GOPATH}" ] && volume="$volume -v ${GOPATH}:/home/vcap/go"
 
-docker run $proxy $volume -e DISPLAY=${DISPLAY} -it --rm --privileged --name dhnt-cf-$$ dhnt/cf
+export PORT=4200
+
+docker run $proxy $volume -e DISPLAY=${DISPLAY} -p $PORT:4200 --expose 4200 -it --rm --privileged --name dhnt-cf-$$ dhnt/cf
 #
