@@ -36,10 +36,12 @@ case "${unix_name}" in
     *Darwin* )
         echo "Mac OSX setup ..."
         export DHNT_BASE=~/.dhnt
+        export DISPLAY=unix:0
     ;;
     *Ubuntu* )
         echo "Ubuntu setup ..."
         export DHNT_BASE=~/.dhnt
+        export DISPLAY=unix:0
     ;;
     *)
         echo "Default setup ..."
